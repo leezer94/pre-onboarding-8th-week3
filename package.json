@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "format": "prettier --cache --write .",
-    "lint": "eslint --cache ."
+    "lint": "eslint --cache .",
+    "server": "json-server --watch db.json --port 4000"
   },
   "eslintConfig": {
     "extends": [
