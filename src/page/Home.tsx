@@ -1,14 +1,23 @@
+import AutoComplete from 'components/AutoComplete';
 import SearchBar from 'components/SearchBar';
-import Title from 'components/Title';
 import { TITLE } from 'constant';
+import { useState } from 'react';
 
 import Wrapper from '../components/PageWrapper';
 
 const Home = () => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <Wrapper>
-      <Title title={TITLE} />
-      <SearchBar />
+      <h1
+        dangerouslySetInnerHTML={{
+          __html: TITLE,
+        }}
+        style={{ marginBottom: '20px' }}
+      ></h1>
+      <SearchBar isFocused={isFocused} setIsFocused={setIsFocused} />
+      {isFocused && <AutoComplete />}
     </Wrapper>
   );
 };

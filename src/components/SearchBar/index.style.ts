@@ -7,18 +7,18 @@ const Container = styled.div<{ isFocused: boolean }>`
 
   width: 490px;
   height: 73.69px;
-  padding: 20px 5px 20px 20px;
+  padding: 20px 0 20px 20px;
 
   background-color: ${({ theme }) => theme.white};
   border-radius: 42px;
   border: ${({ isFocused, theme }) =>
-    isFocused ? `2px solid ${theme.blue}` : 'none'};
+    isFocused ? `1px solid ${theme.blue}` : 'none'};
 
   font-size: 16px;
 `;
 
 const Input = styled.input`
-  width: 396px;
+  width: 390px;
   height: 30px;
 
   font-size: 20px;
@@ -38,8 +38,12 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
+  position: relative;
+  right: 2%;
   width: 48px;
   height: 48px;
+
+  margin-left: 10px;
 
   background-color: ${({ theme }) => theme.blue};
 
