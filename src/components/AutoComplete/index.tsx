@@ -11,28 +11,29 @@ const AutoComplete = () => {
   const [currentHoverItem, setCurrentHoverItem] = useState<string>('');
   const { keywordValue, debouncedSearchValue } = useSearchBar();
   const { data: searchResults, isLoading } = useAxiosGet(debouncedSearchValue);
+
   const [cursor, setCursor] = useState<number>(0);
 
   const downPress = useKeyboardNavigation('ArrowDown');
   const upPress = useKeyboardNavigation('ArrowUp');
 
   useEffect(() => {
-    if (searchResults.length && downPress) {
+    if (searchResults?.length && downPress) {
       setCursor((prevState) =>
-        prevState < searchResults.length - 1 ? prevState + 1 : prevState,
+        prevState < searchResults?.length - 1 ? prevState + 1 : prevState,
       );
     }
   }, [downPress]);
 
   useEffect(() => {
-    if (searchResults.length && upPress) {
+    if (searchResults?.length && upPress) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
     }
   }, [upPress]);
 
   useEffect(() => {
-    if (searchResults.length && currentHoverItem) {
-      const matchIndex = searchResults.findIndex(
+    if (searchResults?.length && currentHoverItem) {
+      const matchIndex = searchResults?.findIndex(
         ({ sickCd }) => sickCd === currentHoverItem,
       );
 
@@ -61,16 +62,16 @@ const AutoComplete = () => {
           <S.SearchKeyword>{keywordValue}</S.SearchKeyword>
         </S.SearchKeywordContainer>
       )}
-      {!keywordValue && searchResults.length === 0 ? (
+      {!keywordValue && searchResults?.length === 0 ? (
         <S.RecommendedKeyword>최근 검색어</S.RecommendedKeyword>
-      ) : keywordValue && searchResults.length !== 0 ? (
+      ) : keywordValue && searchResults?.length !== 0 ? (
         <S.RecommendedKeyword>추천 검색어</S.RecommendedKeyword>
       ) : (
         <S.RecommendedKeyword>검색어 없음</S.RecommendedKeyword>
       )}
       {/*  TODO: 검색어 없는 경우 케이스 다시 검증되어야 함 , 작은 컴폰넌트로 분리*/}
       <div style={{ overflow: 'auto', width: '100%' }}>
-        {searchResults.map(
+        {searchResults?.map(
           ({ sickCd, sickNm }: { sickCd: string; sickNm: string }, idx) => (
             <S.ListContainer
               key={sickCd}
