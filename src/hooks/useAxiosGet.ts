@@ -25,6 +25,7 @@ const useAxiosGet = (
         oldestTimestamp = value.timestamp;
       }
     }
+
     cache.delete(oldestKey);
   };
 
@@ -46,6 +47,8 @@ const useAxiosGet = (
           // 캐싱된 키값이 있을 경우에는 캐싱된 값을 쓴다.
           const cachedData = cache.get(cacheKey);
 
+          console.log(`캐싱된 데이터 ''${cacheKey}'' (이)가 사용되었음`);
+
           if (cachedData.expires > Date.now()) {
             cachedData.timestamp = Date.now();
             setData(cachedData.data);
@@ -58,10 +61,13 @@ const useAxiosGet = (
 
         if (cache.size === cacheSize) {
           // 캐싱된 데이터의 사이즈 초과시에 삭제
+
           removeOldestItem();
         }
 
         const { data } = await axios.get(`${BASE_URL}?q=${keyword}`);
+
+        console.info('calling api');
 
         cache.set(cacheKey, {
           data,
