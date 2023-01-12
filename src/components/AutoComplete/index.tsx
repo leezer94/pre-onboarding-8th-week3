@@ -1,7 +1,6 @@
-import SearchIcon from 'components/Icons/SearchIcon';
-import useAxiosGet from 'hooks/useAxiosGet';
-import useKeyboardNavigation from 'hooks/useKeyboardNavigation';
-import useSearchBar from 'hooks/useSearchBar';
+import SearchIcon from 'components/@commons/Icons/SearchIcon';
+import LoadingSpinner from 'components/@commons/Spinner';
+import { useAxiosGet, useSearchBar, useKeyboardNavigation } from 'hooks';
 import { useState, useEffect } from 'react';
 import { replaceStringToBoldedString } from 'utils';
 
@@ -44,9 +43,14 @@ const AutoComplete = () => {
   if (isLoading)
     return (
       <S.Wrapper>
-        <div>Spinner...</div>
+        <S.SearchKeywordContainer>
+          <LoadingSpinner size='25px' />
+          <span>정보를 가져오고 있습니다....</span>
+        </S.SearchKeywordContainer>
       </S.Wrapper>
     );
+
+  // 컴포넌트의 분리가 필요
 
   return (
     <S.Wrapper id='autoComplete'>

@@ -1,10 +1,15 @@
 import axios from 'axios';
 import { BASE_URL } from 'constant';
 import { useState, useEffect } from 'react';
+import { CACHE_SIZE, CACHE_TIME } from 'utils';
 
 const cache = new Map();
 
-const useAxiosGet = (keyword, cacheSize = 10, cacheTime = 3600 * 1000) => {
+const useAxiosGet = (
+  keyword,
+  cacheSize = CACHE_SIZE,
+  cacheTime = CACHE_TIME.THREE_MINS,
+) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +19,7 @@ const useAxiosGet = (keyword, cacheSize = 10, cacheTime = 3600 * 1000) => {
     let oldestTimestamp = Infinity;
 
     for (const [key, value] of cache) {
+      // 가장 오래된 타임스탬프를 가지고 있는 객체를 삭제한다.
       if (value.timestamp < oldestTimestamp) {
         oldestKey = key;
         oldestTimestamp = value.timestamp;
@@ -36,10 +42,9 @@ const useAxiosGet = (keyword, cacheSize = 10, cacheTime = 3600 * 1000) => {
           return;
         }
 
-        if (cache.has(cacheKey) === true) {
+        if (cache.has(cacheKey)) {
+          // 캐싱된 키값이 있을 경우에는 캐싱된 값을 쓴다.
           const cachedData = cache.get(cacheKey);
-
-          console.log('cached', cachedData);
 
           if (cachedData.expires > Date.now()) {
             cachedData.timestamp = Date.now();
@@ -52,6 +57,7 @@ const useAxiosGet = (keyword, cacheSize = 10, cacheTime = 3600 * 1000) => {
         }
 
         if (cache.size === cacheSize) {
+          // 캐싱된 데이터의 사이즈 초과시에 삭제
           removeOldestItem();
         }
 
@@ -78,46 +84,3 @@ const useAxiosGet = (keyword, cacheSize = 10, cacheTime = 3600 * 1000) => {
 };
 
 export default useAxiosGet;
-
-// import { useState, useEffect } from 'react';
-
-// const useAxiosGet = (debouncedKeyword: string) => {
-//   const cache = new Map();
-//   const [data, setData] = useState([]);
-//   const [error, setError] = useState('');
-//   const [isLoading, setIsLoading] = useState(true);
-
-//   if (cache.has(debouncedKeyword)) {
-//     const cachedData = cache.get(debouncedKeyword);
-
-//     console.log(cachedData);
-//   }
-
-//   const fetchData = async () => {
-//     try {
-//       if (!debouncedKeyword) {
-//         setData([]);
-
-//         return;
-//       }
-
-//       const { data } = await axios.get(`${BASE_debouncedKeyword}?q=${debouncedKeyword}`);
-
-//       cache.set(debouncedKeyword, data);
-
-//       setData(data);
-//     } catch (error: any) {
-//       setError(error);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchData();
-//   }, [debouncedKeyword]);
-
-//   return { data, error, isLoading };
-// };
-
-// export default useAxiosGet;

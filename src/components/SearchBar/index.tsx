@@ -1,14 +1,14 @@
-import SearchIcon from 'components/Icons/SearchIcon';
-import useSearchBar from 'hooks/useSearchBar';
+import SearchIcon from 'components/@commons/Icons/SearchIcon';
+import { useSearchBar } from 'hooks';
 
 import * as S from './index.style';
 
-type Props = {
+type SearchBarProps = {
   isFocused: boolean;
   setIsFocused: (isFocused: boolean) => void;
 };
 
-const SearchBar = ({ isFocused, setIsFocused }: Props) => {
+const SearchBar = ({ isFocused, setIsFocused }: SearchBarProps) => {
   const { keywordValue, setKeywordValue } = useSearchBar();
 
   return (

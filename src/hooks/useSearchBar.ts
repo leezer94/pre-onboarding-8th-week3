@@ -5,7 +5,7 @@ import useDebounce from './useDebounce';
 
 const useSearchBar = () => {
   const [keywordValue, setKeywordValue] = useRecoilState(keywordState);
-  const debouncedSearchValue = useDebounce(keywordValue, 500);
+  const debouncedSearchValue = useDebounce(keywordValue, 150);
 
   return { keywordValue, setKeywordValue, debouncedSearchValue };
 };

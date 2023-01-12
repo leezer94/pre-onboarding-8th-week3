@@ -1,9 +1,8 @@
+import Wrapper from 'components/@commons/PageWrapper';
 import AutoComplete from 'components/AutoComplete';
 import SearchBar from 'components/SearchBar';
 import { TITLE } from 'constant';
 import { useState } from 'react';
-
-import Wrapper from '../components/PageWrapper';
 
 const Home = () => {
   const [isFocused, setIsFocused] = useState(false);
