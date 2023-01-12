@@ -3,10 +3,10 @@ import { BASE_URL } from 'constant';
 import { useState, useEffect } from 'react';
 import { CACHE_SIZE, CACHE_TIME } from 'utils';
 
-const cache = new Map();
+const cache: any = new Map();
 
 const useAxiosGet = (
-  keyword,
+  keyword: string,
   cacheSize = CACHE_SIZE,
   cacheTime = CACHE_TIME.THREE_MINS,
 ) => {
@@ -70,7 +70,7 @@ const useAxiosGet = (
         });
 
         setData(data);
-      } catch (err) {
+      } catch (err: any) {
         setError(err);
       } finally {
         setIsLoading(false);
