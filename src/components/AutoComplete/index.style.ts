@@ -35,7 +35,11 @@ const SearchKeyword = styled.span`
   background-color: transparent;
 `;
 
-const ListContainer = styled.div<{ id: string; currentHoverItem: string }>`
+const ListContainer = styled.div<{
+  id: string;
+  currentHoverItem: string;
+  active: boolean;
+}>`
   width: 100%;
   height: 35px;
 
@@ -45,10 +49,8 @@ const ListContainer = styled.div<{ id: string; currentHoverItem: string }>`
   margin-top: 15px;
   padding-left: 10px;
 
-  background-color: transparent;
-
-  background-color: ${({ id, currentHoverItem, theme }) =>
-    currentHoverItem === id ? theme.backgroundGray : 'transparent'};
+  background-color: ${({ active, theme }) =>
+    active ? theme.backgroundGray : 'transparent'};
 `;
 
 const SearchResult = styled.span`

@@ -1,15 +1,44 @@
 import SearchIcon from 'components/Icons/SearchIcon';
 import useAxiosGet from 'hooks/useAxiosGet';
+import useKeyboardNavigation from 'hooks/useKeyboardNavigation';
 import useSearchBar from 'hooks/useSearchBar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { replaceStringToBoldedString } from 'utils';
 
 import * as S from './index.style';
 
 const AutoComplete = () => {
-  const [currentHoverItem, setCurrentHoverItem] = useState('');
+  const [currentHoverItem, setCurrentHoverItem] = useState<string>('');
   const { keywordValue, debouncedSearchValue } = useSearchBar();
   const { data: searchResults, isLoading } = useAxiosGet(debouncedSearchValue);
+  const [cursor, setCursor] = useState<number>(0);
+
+  const downPress = useKeyboardNavigation('ArrowDown');
+  const upPress = useKeyboardNavigation('ArrowUp');
+
+  useEffect(() => {
+    if (searchResults.length && downPress) {
+      setCursor((prevState) =>
+        prevState < searchResults.length - 1 ? prevState + 1 : prevState,
+      );
+    }
+  }, [downPress]);
+
+  useEffect(() => {
+    if (searchResults.length && upPress) {
+      setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+    }
+  }, [upPress]);
+
+  useEffect(() => {
+    if (searchResults.length && currentHoverItem) {
+      const matchIndex = searchResults.findIndex(
+        ({ sickCd }) => sickCd === currentHoverItem,
+      );
+
+      setCursor(matchIndex);
+    }
+  }, [currentHoverItem]);
 
   if (isLoading)
     return (
@@ -42,11 +71,12 @@ const AutoComplete = () => {
       {/*  TODO: 검색어 없는 경우 케이스 다시 검증되어야 함 , 작은 컴폰넌트로 분리*/}
       <div style={{ overflow: 'auto', width: '100%' }}>
         {searchResults.map(
-          ({ sickCd, sickNm }: { sickCd: string; sickNm: string }) => (
+          ({ sickCd, sickNm }: { sickCd: string; sickNm: string }, idx) => (
             <S.ListContainer
               key={sickCd}
               id={sickCd}
               currentHoverItem={currentHoverItem}
+              active={idx === cursor}
             >
               <SearchIcon
                 fill={'gray'}
@@ -60,7 +90,10 @@ const AutoComplete = () => {
                 dangerouslySetInnerHTML={{
                   __html: replaceStringToBoldedString(sickNm, keywordValue),
                 }}
-                onMouseOver={() => setCurrentHoverItem(sickCd)}
+                onMouseOver={() => {
+                  setCurrentHoverItem(sickCd);
+                  setCursor(idx);
+                }}
               ></S.SearchResult>
             </S.ListContainer>
           ),
