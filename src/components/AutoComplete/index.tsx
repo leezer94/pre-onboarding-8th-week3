@@ -1,11 +1,13 @@
 import SearchIcon from 'components/Icons/SearchIcon';
 import useAxiosGet from 'hooks/useAxiosGet';
 import useSearchBar from 'hooks/useSearchBar';
+import { useState } from 'react';
 import { replaceStringToBoldedString } from 'utils';
 
 import * as S from './index.style';
 
 const AutoComplete = () => {
+  const [currentHoverItem, setCurrentHoverItem] = useState('');
   const { keywordValue, debouncedSearchValue } = useSearchBar();
   const { data: searchResults, isLoading } = useAxiosGet(debouncedSearchValue);
 
@@ -20,7 +22,13 @@ const AutoComplete = () => {
     <S.Wrapper id='autoComplete'>
       {keywordValue && (
         <S.SearchKeywordContainer>
-          <SearchIcon fill={'gray'} css={{ backgroundColor: 'transparent' }} />
+          <SearchIcon
+            fill={'gray'}
+            css={{
+              backgroundColor: 'transparent',
+              margin: '0 10px 0 20px',
+            }}
+          />
           <S.SearchKeyword>{keywordValue}</S.SearchKeyword>
         </S.SearchKeywordContainer>
       )}
@@ -31,19 +39,28 @@ const AutoComplete = () => {
       ) : (
         <S.RecommendedKeyword>검색어 없음</S.RecommendedKeyword>
       )}
-      {/*  TODO: 검색어 없는 경우 케이스 다시 검증되어야 함*/}
+      {/*  TODO: 검색어 없는 경우 케이스 다시 검증되어야 함 , 작은 컴폰넌트로 분리*/}
       <div style={{ overflow: 'auto', width: '100%' }}>
         {searchResults.map(
           ({ sickCd, sickNm }: { sickCd: string; sickNm: string }) => (
-            <S.ListContainer key={sickCd} style={{ background: 'transparent' }}>
+            <S.ListContainer
+              key={sickCd}
+              id={sickCd}
+              currentHoverItem={currentHoverItem}
+            >
               <SearchIcon
                 fill={'gray'}
-                css={{ backgroundColor: 'transparent' }}
+                css={{
+                  backgroundColor: 'transparent',
+                  position: 'relative',
+                }}
+                size={'18px'}
               />
               <S.SearchResult
                 dangerouslySetInnerHTML={{
                   __html: replaceStringToBoldedString(sickNm, keywordValue),
                 }}
+                onMouseOver={() => setCurrentHoverItem(sickCd)}
               ></S.SearchResult>
             </S.ListContainer>
           ),

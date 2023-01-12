@@ -9,7 +9,11 @@ const useAxiosGet = (debouncedKeyword: string) => {
 
   const fetchData = async () => {
     try {
-      if (!debouncedKeyword) return;
+      if (!debouncedKeyword) {
+        setData([]);
+
+        return;
+      }
 
       const { data } = await axios.get(`${BASE_URL}?q=${debouncedKeyword}`);
 

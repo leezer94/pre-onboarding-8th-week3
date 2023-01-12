@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   max-height: 420px;
 
   margin-top: 10px;
-  padding: 10px 20px;
+  padding: 10px 0px;
 
   border-radius: 20px;
   border: none;
@@ -32,18 +32,23 @@ const SearchKeyword = styled.span`
   font-size: 20px;
   font-weight: bold;
 
-  padding: 10px;
-  margin-bottom: 5px;
-
   background-color: transparent;
 `;
 
-const ListContainer = styled.div`
-  margin-top: 15px;
+const ListContainer = styled.div<{ id: string; currentHoverItem: string }>`
   width: 100%;
-  height: 30px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+
+  margin-top: 15px;
+  padding-left: 10px;
 
   background-color: transparent;
+
+  background-color: ${({ id, currentHoverItem, theme }) =>
+    currentHoverItem === id ? theme.backgroundGray : 'transparent'};
 `;
 
 const SearchResult = styled.span`
@@ -54,6 +59,7 @@ const SearchResult = styled.span`
 `;
 
 const RecommendedKeyword = styled.span`
+  margin-top: 10px;
   margin-left: 20px;
   background: transparent;
 
