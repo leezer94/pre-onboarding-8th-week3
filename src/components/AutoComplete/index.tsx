@@ -1,5 +1,6 @@
 import SearchIcon from 'components/@commons/Icons/SearchIcon';
 import LoadingSpinner from 'components/@commons/Spinner';
+import { KEYBOARD } from 'constant';
 import { useAxiosGet, useSearchBar, useKeyboardNavigation } from 'hooks';
 import { useState, useEffect } from 'react';
 import { replaceStringToBoldedString } from 'utils';
@@ -13,8 +14,8 @@ const AutoComplete = () => {
 
   const [cursor, setCursor] = useState<number>(0);
 
-  const downPress = useKeyboardNavigation('ArrowDown');
-  const upPress = useKeyboardNavigation('ArrowUp');
+  const downPress = useKeyboardNavigation(KEYBOARD.ARROW_DOWN);
+  const upPress = useKeyboardNavigation(KEYBOARD.ARROW_UP);
 
   useEffect(() => {
     if (searchResults?.length && downPress) {

@@ -1,3 +1,4 @@
+import { DEFAULT_DELAY_IN_MS } from 'constant';
 import { useState, useEffect } from 'react';
 
 const useDebounce = (value: string, delay?: number) => {
@@ -6,7 +7,7 @@ const useDebounce = (value: string, delay?: number) => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
-    }, delay || 300);
+    }, delay || DEFAULT_DELAY_IN_MS);
 
     return () => {
       clearTimeout(handler);

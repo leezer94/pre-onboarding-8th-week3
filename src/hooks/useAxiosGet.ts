@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { BASE_URL } from 'constant';
+import { BASE_URL, CACHE_SIZE, CACHE_TIME } from 'constant';
 import { useState, useEffect } from 'react';
-import { CACHE_SIZE, CACHE_TIME } from 'utils';
 
 const cache: any = new Map();
 
