@@ -36,15 +36,15 @@
 ----
 - 의존성 package 설치
 ```
-yarn
+npm install
 ```
 - 브라우저 실행
 ```
-yarn start
+npm start
 ```
 - json-server 실행
 ```
-yarn server
+npm server
 ```
 
 <br>
